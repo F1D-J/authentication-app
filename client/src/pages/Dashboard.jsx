@@ -30,13 +30,13 @@ const [loading, setLoading] = useState(true);
     } 
    catch (err) {
   localStorage.removeItem("token");
-  window.location.replace("/login");
+  navigate("/login", { replace: true });
 }
   };
 
  const logout = () => {
   localStorage.removeItem("token");
-  window.location.replace("/login");
+  navigate("/login", { replace: true });
 };
   if (loading) {
   return <h2>Loading users...</h2>;

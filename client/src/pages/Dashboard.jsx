@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Dashboard() {
   const [users, setUsers] = useState([]);
 const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { token, logout } = useAuth();
 
   useEffect(() => {
   document.title = "User Management | Dashboard";
@@ -17,7 +19,7 @@ const [loading, setLoading] = useState(true);
 
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem("token");
+    
 
       const res = await API.get("/users", {
         headers: {
@@ -29,15 +31,15 @@ const [loading, setLoading] = useState(true);
       setLoading(false);
     } 
    catch (err) {
-  localStorage.removeItem("token");
+  logout();
   navigate("/login", { replace: true });
 }
   };
-
- const logout = () => {
-  localStorage.removeItem("token");
+const handleLogout = () => {
+  logout();
   navigate("/login", { replace: true });
 };
+ 
   if (loading) {
   return <h2>Loading users...</h2>;
 }
@@ -83,7 +85,7 @@ const [loading, setLoading] = useState(true);
       </p>
 
       <button
-        onClick={logout}
+        onClick={handleLogout}
         style={{
           background: "#ef4444",
           color: "white",

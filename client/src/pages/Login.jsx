@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import API from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   useEffect(() => {
@@ -12,6 +13,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth();
 
   const login = async () => {
     if (!email || !password) {
@@ -29,9 +31,9 @@ function Login() {
         password,
       });
 
-      localStorage.setItem("token", res.data.token);
+      authLogin(res.data.token);
 
-      navigate("/dashboard");
+navigate("/dashboard", { replace: true });
     } catch (err) {
       alert(err.response?.data?.message || "Login Failed");
     } finally {

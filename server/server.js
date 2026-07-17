@@ -15,7 +15,7 @@ app.use(express.json());
 app.use("/api", authRoutes);
 
 app.get("/", (req, res) => {
-    res.send("Server is running successfully 🚀");
+    res.send("Server is running successfully ");
 });
 
 const PORT = process.env.PORT || 5000;
